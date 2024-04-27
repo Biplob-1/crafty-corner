@@ -1,9 +1,40 @@
 import { FaGithubSquare, FaGoogle } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
+import { GithubAuthProvider, GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
+import app from "../../firebase/firebase.init";
+import { useState } from "react";
 
 const Login = () => {
+    const [user, setUser] = useState(null);
 
+    const auth = getAuth(app);
+    const googleProvider = new GoogleAuthProvider();
+    const githubProvider = new GithubAuthProvider();
 
+    const handleGoogleLogin = () => {
+        signInWithPopup(auth, googleProvider)
+        .then( result => {
+            const loggedinUser = result.user;
+            setUser(loggedinUser);
+            // console.log(loggedinUser);
+        })
+        .catch(error => {
+            console.log('error:', error.message);
+        })
+    }
+
+    const handleGithubLogin = () => {
+        // console.log('github ok')
+        signInWithPopup(auth, githubProvider)
+        .then( result => {
+            const loggedinUser = result.user;
+            setUser(loggedinUser);
+            // console.log(loggedinUser);
+        })
+        .catch(error => {
+            console.log('error:', error.message);
+        })
+    }
     return (
         <>
             <div className="bg-gray-100 flex justify-center items-center h-screen">
@@ -32,10 +63,10 @@ const Login = () => {
                     <div className="mt-4">
                         <p className="text-gray-500 mb-2">Or login with</p>
                         <div className="flex space-x-4">
-                            <button className="btn btn-google">
+                            <button className="btn btn-google" onClick={handleGoogleLogin}>
                                 <FaGoogle /> Google
                             </button>
-                            <button className="btn btn-github">
+                            <button className="btn btn-github" onClick={handleGithubLogin}>
                                 <FaGithubSquare /> GitHub
                             </button>
                         </div>

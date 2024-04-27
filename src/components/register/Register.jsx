@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
-import { useState } from 'react';
-import { getAuth, createUserWithEmailAndPassword, updateProfile, fetchSignInMethodsForEmail } from 'firebase/auth';
-import app from '../../firebase/firebase.init';
+import { useContext, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { AuthContext } from '../../providers/AuthProvider';
+import { getAuth, fetchSignInMethodsForEmail } from 'firebase/auth';
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -22,7 +22,10 @@ const Register = () => {
         });
     };
 
-    const auth = getAuth(app);
+    const { createUser } = useContext(AuthContext);
+    const auth = getAuth();
+
+    // const navigate = useNavigate();
 
     const handleRegister = async (e) => {
         e.preventDefault();
@@ -73,21 +76,14 @@ const Register = () => {
             }
         
             // Register user if email does not exist
-            const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
-            // Update user's display name and photo URL
-            await updateProfile(auth.currentUser, {
-                displayName: formData.name,
-                photoURL: formData.photoURL
-            });
+            const user = await createUser(formData.email, formData.password, formData.name, formData.photoURL);
             toast.success('User registered successfully!');
-            console.log('User registered successfully:', userCredential.user);
-            // Redirect 
+            // navigate('/login');
         } catch (error) {
             if (error.message === 'Firebase: Error (auth/email-already-in-use).') {
                 toast.error('Email already exists. Please use a different email.');
             } else {
                 toast.error('Error registering user: ' + error.message);
-                console.error('Error registering user:', error.message);
             }
         }        
     };
@@ -105,14 +101,14 @@ const Register = () => {
             <div className="bg-gray-100 flex justify-center items-center h-screen">
                 <div className="bg-white p-8 rounded shadow-md max-w-md w-full">
                     <h2 className="text-2xl font-semibold mb-4 text-center">Register</h2>
-                    <form>
+                    <form onSubmit={handleRegister}>
                         <div className="mb-4">
                             <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-600">Name</label>
-                            <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" required />
+                            <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"  />
                         </div>
                         <div className="mb-4">
                             <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-600">Email</label>
-                            <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" required />
+                            <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"  />
                         </div>
                         <div className="mb-4">
                             <label htmlFor="photoURL" className="block mb-2 text-sm font-medium text-gray-600">Photo URL</label>
@@ -120,12 +116,12 @@ const Register = () => {
                         </div>
                         <div className="mb-4 relative">
                             <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-600">Password</label>
-                            <input type={formData.showPassword ? 'text' : 'password'} id="password" name="password" value={formData.password} onChange={handleChange} className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" required />
+                            <input type={formData.showPassword ? 'text' : 'password'} id="password" name="password" value={formData.password} onChange={handleChange} className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"  />
                             <button type="button" className="absolute top-1/2 inset-y-0 right-0 flex items-center px-3 text-gray-600" onClick={togglePasswordVisibility}>
                                 {formData.showPassword ? <FiEyeOff /> : <FiEye />}
                             </button>
                         </div>
-                        <button type="submit" onClick={handleRegister} className="w-full py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Register</button>
+                        <button type="submit"  className="w-full py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Register</button>
                     </form>
                     <div className="mt-4">
                         <p className="text-gray-500">Already have an account? <Link to="/login" className="text-blue-500 hover:underline">Login here</Link></p>

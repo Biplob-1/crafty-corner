@@ -1,19 +1,16 @@
+import { NavLink, useNavigate } from "react-router-dom";
 import { FaGithubSquare, FaGoogle } from "react-icons/fa";
-import { NavLink, useNavigate, useLocation } from "react-router-dom";
-import { GithubAuthProvider, GoogleAuthProvider, getAuth, signInWithPopup, signInWithEmailAndPassword  } from "firebase/auth";
-import app from "../../firebase/firebase.init";
-import { useState } from "react";
-import { toast } from 'react-toastify';
+import { useContext, useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { AuthContext } from "../../providers/AuthProvider";
 
 const Login = () => {
-    const [user, setUser] = useState(null);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const { signInUser, signInWithGoogle, signInWithGithub } = useContext(AuthContext);
     const navigate = useNavigate();
-    const location = useLocation();
-
-    const auth = getAuth(app);
-    const googleProvider = new GoogleAuthProvider();
-    const githubProvider = new GithubAuthProvider();
+    
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -30,17 +27,17 @@ const Login = () => {
         if (!password.trim()) {
             toast.error('Password is required.');
             return;
-        }
-        // Attempt login with Firebase
-        signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                const loggedinUser = userCredential.user;
-                setUser(loggedinUser);
+        }   
+
+        signInUser(email, password)
+            .then(() => {
                 navigate('/');
             })
             .catch((error) => {
                 if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
                     toast.error('Invalid email or password.');
+                } else if (error.code === 'auth/invalid-credential') {
+                    toast.error('Invalid email or password.'); 
                 } else {
                     toast.error('Error logging in: ' + error.message);
                 }
@@ -48,28 +45,25 @@ const Login = () => {
     }
 
     const handleGoogleLogin = () => {
-        signInWithPopup(auth, googleProvider)
-        .then( result => {
-            const loggedinUser = result.user;
-            setUser(loggedinUser);
-            navigate('/');
-        })
-        .catch(error => {
-            toast.error('error:', error.message);
-        })
+        signInWithGoogle()
+            .then(() => {
+                navigate('/');
+            })
+            .catch((error) => {
+                toast.error('Google login error: ' + error.message);
+            });
     }
 
     const handleGithubLogin = () => {
-        signInWithPopup(auth, githubProvider)
-        .then( result => {
-            const loggedinUser = result.user;
-            setUser(loggedinUser);
-            navigate('/');
-        })
-        .catch(error => {
-            toast.error('error:', error.message);
-        })
+        signInWithGithub()
+            .then(() => {
+                navigate('/');
+            })
+            .catch((error) => {
+                toast.error('GitHub login error: ' + error.message);
+            });
     }
+
     return (
         <>
             <div className="bg-gray-100 flex justify-center items-center h-screen">
@@ -108,6 +102,7 @@ const Login = () => {
                     </div>
                 </div>
             </div>
+            <ToastContainer></ToastContainer>
         </>
     );
 }

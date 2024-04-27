@@ -8,6 +8,7 @@ import Home from './components/home/Home.jsx';
 import Login from './components/login/Login.jsx';
 import Register from './components/register/Register.jsx';
 import ArtAndCraft from './components/artAndCraft/ArtAndCraft.jsx';
+import AddCraft from './components/addCraft/AddCraft.jsx';
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path:'/art&craft',
         element:<ArtAndCraft></ArtAndCraft>
+      },
+      {
+        path:'/addCraft',
+        element:<AddCraft></AddCraft>
       }
 
     ]

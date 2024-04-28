@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { useContext, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
@@ -78,7 +78,15 @@ const Register = () => {
             // Register user if email does not exist
             const user = await createUser(formData.email, formData.password, formData.name, formData.photoURL);
             toast.success('User registered successfully!');
-            // navigate('/login');
+            // Navigate('/');
+            
+            setFormData({
+                name: '',
+                email: '',
+                photoURL: '',
+                password: '',
+                showPassword: false
+            });
         } catch (error) {
             if (error.message === 'Firebase: Error (auth/email-already-in-use).') {
                 toast.error('Email already exists. Please use a different email.');

@@ -1,13 +1,37 @@
 import { NavLink } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../providers/AuthProvider";
+import { Tooltip } from "react-tooltip";
+
+
+
+
 
 const Header = () => {
+    const {user, logout} = useContext(AuthContext);
     const navLinks = <>
-    <li><NavLink to={'/'}>Home</NavLink></li>
-    <li><NavLink to={'/art&craft'}>All Art & craft Items</NavLink></li>
-    <li><NavLink to={'/addCraft'}>Add Craft</NavLink></li>
-    <li><NavLink to={'/updateCraft'}>Update Craft</NavLink></li>
-    <li><NavLink to={'/login'}>Login</NavLink></li>
-    <li><NavLink to={'/register'}>Register</NavLink></li>
+    {user ?(
+
+        <>
+            <li><NavLink to={'/'}>Home</NavLink></li>
+            <li><NavLink to={'/art&craft'}>All Art & craft Items</NavLink></li>
+            <li><NavLink to={'/addCraft'}>Add Craft</NavLink></li>
+            <li><NavLink to={'/updateCraft'}>Update Craft</NavLink></li>
+        </>
+    ):(
+        <>
+            <li><NavLink to={'/'}>Home</NavLink></li>
+            <li><NavLink to={'/art&craft'}>All Art & craft Items</NavLink></li>
+        </>
+
+    )}
+    {user ? null :(
+        <>
+            <li><NavLink to={'/register'}>Register</NavLink></li>
+        </>
+    )
+
+    }
     </>
     const links = <>
 
@@ -32,7 +56,29 @@ const Header = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                <a className="btn">Button</a>
+                {user ? (
+                    <>
+                    <div className="flex gap-3">
+                    <Tooltip />
+                        <img 
+                            src={ user?.photoURL} 
+                            alt="User" 
+                            className="w-10 h-10 rounded-full cursor-pointer" 
+                            data-tip={user.displayName} 
+                            
+                        />
+                        {
+                            console.log(user)
+                        }
+                        <NavLink to={'/login'} className="btn" onClick={logout}>Logout</NavLink>
+                    </div>
+
+                    
+                    </>
+                        
+                    ) : (
+                        <NavLink to={'/login'} className="btn">Login</NavLink>
+                )}
             </div>
         </div>
         </>

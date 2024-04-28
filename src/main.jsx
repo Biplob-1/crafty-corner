@@ -10,6 +10,7 @@ import Register from './components/register/Register.jsx';
 import ArtAndCraft from './components/artAndCraft/ArtAndCraft.jsx';
 import AddCraft from './components/addCraft/AddCraft.jsx';
 import AuthProvider from './providers/AuthProvider.jsx';
+import PrivateRoute from './routes/PrivateRoute.jsx';
 
 const router = createBrowserRouter([
   {
@@ -35,7 +36,7 @@ const router = createBrowserRouter([
       },
       {
         path:'/addCraft',
-        element:<AddCraft></AddCraft>
+        element:<PrivateRoute><AddCraft></AddCraft></PrivateRoute>,
       }
 
     ]

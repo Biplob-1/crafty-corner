@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import { Tooltip } from "react-tooltip";
+import 'react-tooltip/dist/react-tooltip.css'
 
 
 
@@ -16,7 +17,7 @@ const Header = () => {
             <li><NavLink to={'/'}>Home</NavLink></li>
             <li><NavLink to={'/art&craft'}>All Art & craft Items</NavLink></li>
             <li><NavLink to={'/addCraft'}>Add Craft</NavLink></li>
-            <li><NavLink to={'/updateCraft'}>Update Craft</NavLink></li>
+            <li><NavLink to={'/myCraft'}>My Craft</NavLink></li>
         </>
     ):(
         <>
@@ -59,17 +60,14 @@ const Header = () => {
                 {user ? (
                     <>
                     <div className="flex gap-3">
-                    <Tooltip />
-                        <img 
+                    <Tooltip id="my-tooltip" />
+                        <img data-tooltip-id="my-tooltip"
                             src={ user?.photoURL} 
                             alt="User" 
                             className="w-10 h-10 rounded-full cursor-pointer" 
-                            data-tip={user.displayName} 
+                            data-tooltip-content={user.displayName} 
                             
                         />
-                        {
-                            console.log(user)
-                        }
                         <NavLink to={'/login'} className="btn" onClick={logout}>Logout</NavLink>
                     </div>
 

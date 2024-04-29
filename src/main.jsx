@@ -11,6 +11,7 @@ import ArtAndCraft from './components/artAndCraft/ArtAndCraft.jsx';
 import AddCraft from './components/addCraft/AddCraft.jsx';
 import AuthProvider from './providers/AuthProvider.jsx';
 import PrivateRoute from './routes/PrivateRoute.jsx';
+import MyCraft from './components/myCraft/MyCraft.jsx';
 
 const router = createBrowserRouter([
   {
@@ -32,11 +33,16 @@ const router = createBrowserRouter([
       },
       {
         path:'/art&craft',
-        element:<ArtAndCraft></ArtAndCraft>
+        element:<ArtAndCraft></ArtAndCraft>,
+        loader: () => fetch('http://localhost:5000/addCrafts')
       },
       {
         path:'/addCraft',
         element:<PrivateRoute><AddCraft></AddCraft></PrivateRoute>,
+      },
+      {
+        path: '/myCraft',
+        element:<PrivateRoute><MyCraft></MyCraft></PrivateRoute>,
       }
 
     ]

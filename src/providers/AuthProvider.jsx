@@ -8,8 +8,10 @@ const auth = getAuth(app);
 
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     const createUser = async (email, password, name, photoURL) => {
+        setLoading(true)
         try {
             // check if email already exists
             // const signInMethods = await fetchSignInMethodsForEmail(auth, email);
@@ -31,20 +33,24 @@ const AuthProvider = ({ children }) => {
     }
     
     const signInUser = (email, password) => {
+        setLoading(true)
         return signInWithEmailAndPassword(auth, email, password);
     }
 
     const signInWithGoogle = () => {
+        setLoading(true)
         const provider = new GoogleAuthProvider();
         return signInWithPopup(auth, provider);
     }
 
     const signInWithGithub = () => {
+        setLoading(true)
         const provider = new GithubAuthProvider();
         return signInWithPopup(auth, provider);
     }
 
     const logout = () => {
+        setLoading(true)
         signOut(auth)
             .then(() => {
                 setUser(null);
@@ -61,6 +67,7 @@ const AuthProvider = ({ children }) => {
             } else {
                 setUser(null);
             }
+            setLoading(false)
         });
         return () => {
             unSubscribe();
@@ -68,7 +75,14 @@ const AuthProvider = ({ children }) => {
     }, []);
     
 
-    const authInfo = { user, createUser, signInUser, signInWithGoogle, signInWithGithub, logout };
+    const authInfo = { 
+        user, 
+        createUser, 
+        signInUser,
+        signInWithGoogle, 
+        signInWithGithub, 
+        logout,
+        loading };
 
     return (
         <AuthContext.Provider value={authInfo}>

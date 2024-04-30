@@ -57,7 +57,7 @@ const UpdateCraft = () => {
         };
 
         // Send updated data to the server for processing
-        fetch(`https://artful-glass-and-paper-server.vercel.app/${loadedCraft._id}`, {
+        fetch(`https://artful-glass-and-paper-server.vercel.app/addCrafts/${loadedCraft._id}`, {
             method: 'PUT',
             headers: {
                 'content-type': 'application/json',

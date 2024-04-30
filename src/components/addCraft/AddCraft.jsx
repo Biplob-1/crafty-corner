@@ -49,7 +49,7 @@ const AddCraft = () => {
     const newAddCraft = { image, itemName, subcategoryName, shortDescription, price, rating, customization, processingTime, stockStatus, email, name };
 
     // send data to the server
-    fetch('https://artful-glass-and-paper-server.vercel.app', {
+    fetch('https://artful-glass-and-paper-server.vercel.app/addCrafts', {
       method: 'POST',
       headers: {
         'content-type': 'application/json',

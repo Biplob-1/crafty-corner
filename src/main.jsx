@@ -24,7 +24,7 @@ const router = createBrowserRouter([
       {
         path:'/',
         element:<Home></Home>,
-        loader: () => fetch('https://artful-glass-and-paper-server.vercel.app')
+        loader: () => fetch('https://artful-glass-and-paper-server.vercel.app/addCrafts')
       },
       {
         path:'/login',
@@ -37,7 +37,7 @@ const router = createBrowserRouter([
       {
         path:'/art&craft',
         element:<ArtAndCraft></ArtAndCraft>,
-        loader: () => fetch('https://artful-glass-and-paper-server.vercel.app')
+        loader: () => fetch('https://artful-glass-and-paper-server.vercel.app/addCrafts')
       },
       {
         path:'/addCraft',
@@ -50,12 +50,12 @@ const router = createBrowserRouter([
       {
         path:'/update/:id',
         element:<PrivateRoute><UpdateCraft></UpdateCraft></PrivateRoute>,
-        loader: ({params}) => fetch(`https://artful-glass-and-paper-server.vercel.app/${params.id}`)
+        loader: ({params}) => fetch(`https://artful-glass-and-paper-server.vercel.app/addCrafts/${params.id}`)
       },
       {
         path:'/craftDetails/:id',
         element:<PrivateRoute><ViewDetailsCraft></ViewDetailsCraft></PrivateRoute>,
-        loader: ({params}) => fetch(`https://artful-glass-and-paper-server.vercel.app/${params.id}`)
+        loader: ({params}) => fetch(`https://artful-glass-and-paper-server.vercel.app/addCrafts/${params.id}`)
       }
 
     ]

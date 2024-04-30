@@ -1,10 +1,9 @@
 
-import { useLoaderData } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 
 
 const ArtAndCraft = () => {
     const crafts = useLoaderData() || [];
-    console.log(crafts)
     
 
     return (
@@ -41,7 +40,9 @@ const ArtAndCraft = () => {
                       </td>
                       <td>{craft.price}</td>
                       <th>
-                        <button className="btn btn-ghost btn-xs">details</button>
+                        <Link to={`/craftDetails/${craft._id}`}>
+                          <button className="btn btn-ghost btn-xs bg-blue-600">View Details</button>
+                        </Link>
                       </th>
                     </tr>
                   </tbody>

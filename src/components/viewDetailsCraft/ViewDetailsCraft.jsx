@@ -27,6 +27,9 @@ const ViewDetailsCraft = () => {
                                     <p><span className="font-bold">Time:</span> {craft.processingTime}</p>
                                     <p><span className="font-bold">Owner:</span> {craft.name}</p>
                                 </div>
+                                <div>
+                                    <p><span className="font-bold">Email:</span> {craft.email}</p>
+                                </div>
                             </div>
                         </div>
                     </div>

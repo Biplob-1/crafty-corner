@@ -2,9 +2,12 @@
 import { Link, useLoaderData } from "react-router-dom";
 
 
-const ArtAndCraft = () => {
-    const crafts = useLoaderData() || [];
-    
+const ArtAndCraft = ({crafts}) => {
+    const craftsd = useLoaderData() || [];
+    console.log(craftsd);
+  //   if (!crafts) {
+  //     return <div>No crafts available</div>;
+  // }
 
     return (
         <div className="overflow-x-auto">
@@ -19,7 +22,7 @@ const ArtAndCraft = () => {
                       <th>Action</th>
                     </tr>
                   </thead>
-                  {crafts.map((craft, index) => (
+                  {craftsd?.map((craft, index) => (
                   <tbody>
                     <tr key={index}>
                       <td>

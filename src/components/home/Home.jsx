@@ -2,6 +2,7 @@ import { Link, useLoaderData } from "react-router-dom";
 import Slider from "../slider/Slider";
 import OurStaff from "../ourStaff/OurStaff";
 import Accordion from "../accordion/Accordion";
+import { Typewriter } from "react-simple-typewriter";
 
 
 const Home = () => {
@@ -9,9 +10,22 @@ const Home = () => {
     const craftsShow = crafts.slice(0, 6)
     return (
         <>
-            <Slider />
+            <Slider></Slider>
             <div className="mt-5 px-4 mx-auto">
                 <h3 className="text-center text-3xl font-extrabold">Art & Craft</h3>
+                <div className="max-w-[50%] flex mx-auto text-center justify-center py-5 font-semibold">
+                <Typewriter
+                        words={['Explore creativity with handmade treasures, unique designs, and innovative projects.']}
+                        loop={Infinity} 
+                        cursor 
+                        cursorStyle="_" 
+                        typeSpeed={100} 
+                        deleteSpeed={50} 
+                        delaySpeed={2000} 
+                        className="btn btn-ghost text-2xl font-bold"
+
+                    />
+                </div>
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
                 {craftsShow?.map((craft, index) => (
                     <div key={index} className="mt-5">

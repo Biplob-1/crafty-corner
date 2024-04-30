@@ -4,10 +4,6 @@ import { AuthContext } from "../../providers/AuthProvider";
 import { Tooltip } from "react-tooltip";
 import 'react-tooltip/dist/react-tooltip.css'
 
-
-
-
-
 const Header = () => {
     const {user, logout} = useContext(AuthContext);
     const navLinks = <>

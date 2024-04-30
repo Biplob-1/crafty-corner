@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../../providers/AuthProvider';
+import { Link } from 'react-router-dom';
 const MyCraft = () => {
     // State to store crafts data
     const [crafts, setCrafts] = useState([]);
@@ -16,12 +17,20 @@ const MyCraft = () => {
             console.error('Error fetching crafts:', error);
         }
     };
+    const handleDeleteCraft = async (id) => {
+        try {
+            await axios.delete(`http://localhost:5000/addCrafts/${id}`);
+            setCrafts(crafts.filter(craft => craft._id !== id));
+        } catch (error) {
+            console.error('Error deleting craft:', error);
+        }
+    };
 
     // Fetch crafts data on component mount
     useEffect(() => {
         fetchCrafts();
     }, [user]);
-    console.log(crafts)
+    // console.log(crafts)
 
     return (
         <div>
@@ -45,8 +54,13 @@ const MyCraft = () => {
                                 </div>
                                 
                                 <div className="flex justify-between">
-                                <button className="btn btn-primary">Update</button>
-                                <button className="btn btn-primary">Delete</button>
+                                    <Link to={`/update/${craft._id}`}>
+                                        <button className="btn btn-primary">Update</button>
+                                    </Link>
+                                    
+                                <button 
+                               onClick={() => handleDeleteCraft(craft._id)}
+                                className="btn btn-primary bg-red-500">Delete</button>
                                 </div>
                             </div>
                         </div>

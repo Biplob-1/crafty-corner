@@ -12,6 +12,7 @@ import AddCraft from './components/addCraft/AddCraft.jsx';
 import AuthProvider from './providers/AuthProvider.jsx';
 import PrivateRoute from './routes/PrivateRoute.jsx';
 import MyCraft from './components/myCraft/MyCraft.jsx';
+import UpdateCraft from './components/updateCraft/UpdateCraft.jsx';
 
 const router = createBrowserRouter([
   {
@@ -43,6 +44,11 @@ const router = createBrowserRouter([
       {
         path: '/myCraft',
         element:<PrivateRoute><MyCraft></MyCraft></PrivateRoute>,
+      },
+      {
+        path:'/update/:id',
+        element:<PrivateRoute><UpdateCraft></UpdateCraft></PrivateRoute>,
+        loader: ({params}) => fetch(`http://localhost:5000/addCrafts/${params.id}`)
       }
 
     ]

@@ -4,51 +4,54 @@ import { useLoaderData } from "react-router-dom";
 
 const ArtAndCraft = () => {
     const crafts = useLoaderData() || [];
+    console.log(crafts)
     
 
     return (
         <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+            
+                <div className="overflow-x-auto">
+                <table className="table">
+                  <thead>
                     <tr>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Name
-                        </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Description
-                        </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Price
-                        </th>
-                        <th scope="col" className="relative px-6 py-3">
-                            <span className="sr-only">View Details</span>
-                        </th>
+                      <th>Image</th>
+                      <th>Description</th>
+                      <th>Price</th>
+                      <th>Action</th>
                     </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                    {crafts.map((craft, index) => (
-                        <tr key={index}>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                                <div className="text-sm font-medium text-gray-900">{craft.name}</div>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                                <div className="text-sm text-gray-500">{craft.description}</div>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                                <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                    ${craft.price}
-                                </span>
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <a href={`/details/${craft.id}`} className="text-indigo-600 hover:text-indigo-900">
-                                    View Details
-                                </a>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+                  </thead>
+                  {crafts.map((craft, index) => (
+                  <tbody>
+                    <tr key={index}>
+                      <td>
+                        <div className="flex items-center gap-3">
+                          <div className="avatar">
+                            <div className="mask mask-squircle w-24 h-24">
+                              <img src={craft.image} alt="Avatar Tailwind CSS Component" />
+                            </div>
+                          </div>
+                          <div>
+                            <div className="font-bold">Item Name</div>
+                            <div className="text-sm opacity-50">{craft.itemName}</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        {craft.shortDescription}
+                      </td>
+                      <td>{craft.price}</td>
+                      <th>
+                        <button className="btn btn-ghost btn-xs">details</button>
+                      </th>
+                    </tr>
+                  </tbody>
+                  ))}
+                  
+                </table>
+              </div> 
+            
         </div>
+
     );
 }
 

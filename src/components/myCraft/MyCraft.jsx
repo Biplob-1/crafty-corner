@@ -13,7 +13,7 @@ const MyCraft = () => {
     // Function to fetch crafts data
     const fetchCrafts = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/addCrafts', {
+            const response = await axios.get('https://artful-glass-and-paper-server-p5cjqubef.vercel.app/addCrafts', {
                 params: {
                     customization: filterCustomization 
                 }
@@ -38,7 +38,7 @@ const MyCraft = () => {
             });
 
             if (result.isConfirmed) {
-                await axios.delete(`http://localhost:5000/addCrafts/${id}`);
+                await axios.delete(`https://artful-glass-and-paper-server-p5cjqubef.vercel.app/addCrafts/${id}`);
                 setCrafts(crafts.filter(craft => craft._id !== id));
                 Swal.fire(
                     'Deleted!',

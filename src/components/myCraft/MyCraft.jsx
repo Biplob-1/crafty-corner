@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../../providers/AuthProvider';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 const MyCraft = () => {
     // State to store crafts data
     const [crafts, setCrafts] = useState([]);
@@ -19,12 +20,30 @@ const MyCraft = () => {
     };
     const handleDeleteCraft = async (id) => {
         try {
-            await axios.delete(`http://localhost:5000/addCrafts/${id}`);
-            setCrafts(crafts.filter(craft => craft._id !== id));
+            const result = await Swal.fire({
+                title: 'Are you sure?',
+                text: 'You won\'t be able to revert this!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            });
+
+            if (result.isConfirmed) {
+                await axios.delete(`http://localhost:5000/addCrafts/${id}`);
+                setCrafts(crafts.filter(craft => craft._id !== id));
+                Swal.fire(
+                    'Deleted!',
+                    'Your craft has been deleted.',
+                    'success'
+                );
+            }
         } catch (error) {
             console.error('Error deleting craft:', error);
         }
     };
+
 
     // Fetch crafts data on component mount
     useEffect(() => {
